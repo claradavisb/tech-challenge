@@ -10,8 +10,10 @@ Requirements:
 * OpenSSL (Usually installed by default)
 * Ansible (```apt install ansible```)
 
-Clone this repository and run ```./auto_setup.sh```
-Open your browser and navigate to ```https://localhost```
+Clone this repository and run ```./auto_setup.sh```.
+
+Open your browser and navigate to ```https://localhost```.
+
 You'll see a security warning, this is because the certificate is self signed.
 
 Windows users will need to install WSL 2 and Docker Desktop, then enable its WSL 2 backend. ([Docker Desktop Install Link](https://docs.docker.com/desktop/features/wsl/))
