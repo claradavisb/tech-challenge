@@ -1,0 +1,40 @@
+---
+- name : Deploy Web Server
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    project_dir: "{{playbook_dir}}/.."
+    ssl_dir: "{{project_dir}}/ssl"
+    docker_dir: "{{project_dir}}/docker"
+
+  tasks:
+    - name: Check SSL certs
+      file:
+        path: "{{ssl_dir}}"
+        state: directory
+        mode: '0755'
+
+    - name: Create self signed certs
+      command: >
+        openssl req -x509 -nodes -days 30 -newkey rsa:2048 \
+          -keyout {{ssl_dir}}/key.pem \
+          -out {{ssl_dir}}/cert.pem \
+          -subj "/CN=localhost"
+      args:
+        creates: "{{ssl_dir}}/cert.pem"
+
+    - name: Build Docker
+      command: docker build -t tech-challenge -f docker/Dockerfile .
+      args:
+        chdir: "{{project_dir}}"
+
+    - name: Stop existing container
+      command: docker stop new-webserver
+
+    - name: Remove existing container
+      command: docker rm new-webserver
+
+    - name: Run Docker
+      command: docker run -d --name new-webserver -p 443:443 tech-challenge

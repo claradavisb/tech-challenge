@@ -2,9 +2,8 @@
 
 set -e 
 
-docker build -t tech-challenge -f docker/Dockerfile .
+ansible-playbook ansible/playbook.yml
 
-docker stop new-webserver 2>/dev/null || true
-docker rm new-webserver 2>/dev/null || true
-
-docker run -d --name new-webserver -p 443:443 tech-challenge
+echo "Server running at https://localhost"
+echo "To stop, run 'docker stop new-webserver'"
+echo "To remove, run 'docker rm new-webserver'"
