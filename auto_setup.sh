@@ -2,7 +2,7 @@
 
 set -e 
 
-ansible-playbook ansible/playbook.yml
+ansible-playbook -i ansible/inventory ansible/playbook.yml
 
 echo "Server running at https://localhost"
 echo "To stop, run 'docker stop new-webserver'"
